@@ -1,0 +1,6 @@
+Architecture: all
+Depends: coreutils, util-linux
+Description: Random string generator
+Maintainer: kei-g <km.8k6ce+debpkg@gmail.com>
+Package: urandom
+Version: 1.0.0

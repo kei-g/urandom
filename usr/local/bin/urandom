@@ -1,0 +1,25 @@
+#!/bin/sh
+getoptfailed() {
+	printf "\033[31mgetopt failed with error code $?\033[m\n" >&2
+	exit 1
+}
+
+readonly opts="-o c:d:l:n: -l class: -l device: -l length: -l lines:"
+args=$(getopt -a $opts -s sh -- "$@") || getoptfailed
+eval set -- "$args"
+
+class=alnum
+device=/dev/urandom
+length=8
+lines=1
+until [ "$1" = "--" ]; do
+	case "$1" in
+		-d | --device) device="$2"; shift;;
+		-c | --class) class="$2"; shift;;
+		-l | --length) length="$2"; shift;;
+		-n | --lines) lines="$2"; shift;;
+	esac
+	shift
+done
+
+tr -dc "[:$class:]" < "$device" | fold -w $length | head -n $lines
